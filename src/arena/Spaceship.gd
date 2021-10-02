@@ -1,5 +1,7 @@
 extends RigidBody
 
+const Projectile := preload('res://src/weapon/Projectile.tscn')
+
 export (float) var acceleration = 10.0
 
 var mouse_captured = false
@@ -9,6 +11,9 @@ var mouse_deltas := Vector2.ZERO
 func _ready() -> void:
   linear_damp = 2.0
   angular_damp = 3.0
+  var target = $InterpolatedCamera/GUI/CrossTarget
+  var center = get_viewport().size * 0.5
+  target.position = center
 
 func _input(event: InputEvent) -> void:
   if event is InputEventMouseMotion:
@@ -19,7 +24,6 @@ func update_crosshair_target() -> void:
   var target = $InterpolatedCamera/GUI/CrossTarget
 
   var center = get_viewport().size * 0.5
-
   target.position = target.position.linear_interpolate(center + mouse_deltas * 16.0, 0.025)
 
   var distance = target.position.distance_to(center)
@@ -56,6 +60,11 @@ func _physics_process(delta: float) -> void:
     add_torque(transform.basis.z * acceleration)
   if Input.is_action_pressed('roll_right'):
     add_torque(transform.basis.z * (-acceleration))
+  if Input.is_action_just_pressed('fire_primary'):
+    var projectile = Projectile.instance()
+    projectile.global_transform = $InterpolatedCamera/ProjectileShooter.global_transform
+    projectile.apply_central_impulse(projectile.transform.basis.z * -10.0)
+    get_parent().add_child(projectile)
 
   var yaw = mouse_deltas.x
   var pitch = mouse_deltas.y

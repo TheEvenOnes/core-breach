@@ -60,10 +60,16 @@ margin_top = -32.0
 margin_right = 32.0
 margin_bottom = 32.0
 texture = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="CrossTarget" type="Sprite" parent="Spaceship/InterpolatedCamera/GUI"]
 modulate = Color( 1, 1, 1, 0 )
 texture = ExtResource( 3 )
+
+[node name="ProjectileShooter" type="Position3D" parent="Spaceship/InterpolatedCamera"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.27811 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8.94254 )
