@@ -10,11 +10,27 @@ func _ready() -> void:
   linear_damp = 2.0
   angular_damp = 3.0
 
-
 func _input(event: InputEvent) -> void:
   if event is InputEventMouseMotion:
     if mouse_captured:
       mouse_deltas += event.relative * 0.2
+
+func update_crosshair_target() -> void:
+  var target = $InterpolatedCamera/GUI/CrossTarget
+
+  var center = get_viewport().size * 0.5
+
+  target.position = target.position.linear_interpolate(center + mouse_deltas * 16.0, 0.025)
+
+  var distance = target.position.distance_to(center)
+  var away_from_center = target.position - center
+
+  target.rotation = away_from_center.angle() + deg2rad(90.0)
+
+  if distance < 64:
+    target.modulate.a = smoothstep(0.0, 1.0, distance / 64.0)
+  else:
+    target.modulate.a = 1.0
 
 func _physics_process(delta: float) -> void:
   if Input.is_action_just_pressed('debug_toggle_mouse_capture'):
@@ -24,10 +40,14 @@ func _physics_process(delta: float) -> void:
     else:
       Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
-  if Input.is_action_pressed('throttle_up'):
+  if Input.is_action_pressed('throttle_forward'):
     add_force(transform.basis.z * (-acceleration), Vector3.ZERO)
-  if Input.is_action_pressed('throttle_down'):
+  if Input.is_action_pressed('throttle_backward'):
     add_force(transform.basis.z * acceleration, Vector3.ZERO)
+  if Input.is_action_pressed('throttle_up'):
+    add_force(transform.basis.y * acceleration, Vector3.ZERO)
+  if Input.is_action_pressed('throttle_down'):
+    add_force(transform.basis.y * (-acceleration), Vector3.ZERO)
   if Input.is_action_pressed('throttle_left'):
     add_force(transform.basis.x * (-acceleration), Vector3.ZERO)
   if Input.is_action_pressed('throttle_right'):
@@ -42,5 +62,7 @@ func _physics_process(delta: float) -> void:
 
   add_torque(transform.basis.y * (-yaw))
   add_torque(transform.basis.x * (-pitch))
+
+  update_crosshair_target()
 
   mouse_deltas *= 0.5
