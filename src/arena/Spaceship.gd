@@ -9,7 +9,7 @@ var mouse_captured = true
 var mouse_deltas := Vector2.ZERO
 
 func _ready() -> void:
-  linear_damp = 2.0
+  linear_damp = 1.5
   angular_damp = 3.0
   var target = $InterpolatedCamera/GUI/CrossTarget
   var center = get_viewport().size * 0.5
@@ -19,7 +19,7 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
   if event is InputEventMouseMotion:
     if mouse_captured:
-      mouse_deltas += event.relative * 0.2
+      mouse_deltas += event.relative * 250.0 * 1.0 / get_viewport().size
 
 func play_sfx_core():
   if !$CoreSFX.playing:
