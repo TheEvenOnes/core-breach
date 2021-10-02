@@ -4,7 +4,7 @@ const Projectile := preload('res://src/weapon/Projectile.tscn')
 
 export (float) var acceleration = 10.0
 
-var mouse_captured = false
+var mouse_captured = true
 
 var mouse_deltas := Vector2.ZERO
 
@@ -14,6 +14,7 @@ func _ready() -> void:
   var target = $InterpolatedCamera/GUI/CrossTarget
   var center = get_viewport().size * 0.5
   target.position = center
+  Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func _input(event: InputEvent) -> void:
   if event is InputEventMouseMotion:
