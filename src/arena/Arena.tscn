@@ -86,6 +86,7 @@ __meta__ = {
 
 [node name="CrossTarget" type="Sprite" parent="Spaceship/InterpolatedCamera/GUI"]
 modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 511.58, 302.984 )
 texture = ExtResource( 3 )
 
 [node name="ProjectileShooter" type="Position3D" parent="Spaceship/InterpolatedCamera"]

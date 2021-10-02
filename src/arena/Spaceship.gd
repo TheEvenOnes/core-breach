@@ -41,6 +41,9 @@ func update_crosshair_target() -> void:
     target.modulate.a = 1.0
 
 func _physics_process(delta: float) -> void:
+  if Input.is_action_just_released('ui_cancel'):
+    get_tree().quit()
+
   if Input.is_action_just_pressed('debug_toggle_mouse_capture'):
     mouse_captured = !mouse_captured
     if mouse_captured:
