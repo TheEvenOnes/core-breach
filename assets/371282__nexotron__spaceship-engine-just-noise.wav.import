@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/371282__nexotron__spaceship-engine-just-noise.wav-9ea2e0016e0e43c0a014ce4c68c91a72.sample"
+
+[deps]
+
+source_file="res://assets/371282__nexotron__spaceship-engine-just-noise.wav"
+dest_files=[ "res://.import/371282__nexotron__spaceship-engine-just-noise.wav-9ea2e0016e0e43c0a014ce4c68c91a72.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

@@ -20,6 +20,10 @@ func _input(event: InputEvent) -> void:
     if mouse_captured:
       mouse_deltas += event.relative * 0.2
 
+func play_sfx_core():
+  if !$CoreSFX.playing:
+    $CoreSFX.play()
+
 func update_crosshair_target() -> void:
   var target = $InterpolatedCamera/GUI/CrossTarget
 
@@ -44,10 +48,13 @@ func _physics_process(delta: float) -> void:
     else:
       Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
+  var overdrive = 1.0
+  if Input.is_action_pressed('throttle_overdrive'):
+    overdrive = 2.0
   if Input.is_action_pressed('throttle_forward'):
-    add_force(transform.basis.z * (-acceleration), Vector3.ZERO)
+    add_force(transform.basis.z * -acceleration * overdrive, Vector3.ZERO)
   if Input.is_action_pressed('throttle_backward'):
-    add_force(transform.basis.z * acceleration, Vector3.ZERO)
+    add_force(transform.basis.z * acceleration * overdrive, Vector3.ZERO)
   if Input.is_action_pressed('throttle_up'):
     add_force(transform.basis.y * acceleration, Vector3.ZERO)
   if Input.is_action_pressed('throttle_down'):
@@ -63,8 +70,9 @@ func _physics_process(delta: float) -> void:
   if Input.is_action_just_pressed('fire_primary'):
     var projectile = Projectile.instance()
     projectile.global_transform = $InterpolatedCamera/ProjectileShooter.global_transform
-    projectile.apply_central_impulse(projectile.transform.basis.z * -10.0)
+    projectile.apply_central_impulse(projectile.transform.basis.z * -projectile.speed)
     get_parent().add_child(projectile)
+    $AudioStreamPlayer3D.play()
 
   var yaw = mouse_deltas.x
   var pitch = mouse_deltas.y
@@ -75,3 +83,6 @@ func _physics_process(delta: float) -> void:
   update_crosshair_target()
 
   mouse_deltas *= 0.5
+
+  play_sfx_core()
+  $CoreSFX.pitch_scale = 1.0 + linear_velocity.length() / 5.0
