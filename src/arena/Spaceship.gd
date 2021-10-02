@@ -54,7 +54,7 @@ func _physics_process(delta: float) -> void:
 
   var overdrive = 1.0
   if Input.is_action_pressed('throttle_overdrive'):
-    overdrive = 2.0
+    overdrive = 4.0
   if Input.is_action_pressed('throttle_forward'):
     add_force(transform.basis.z * -acceleration * overdrive, Vector3.ZERO)
   if Input.is_action_pressed('throttle_backward'):

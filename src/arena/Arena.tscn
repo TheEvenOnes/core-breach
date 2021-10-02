@@ -101,6 +101,7 @@ unit_size = 2.0
 stream = ExtResource( 5 )
 attenuation_model = 2
 unit_db = 2.0
+unit_size = 3.0
 
 [node name="MeshInstance2" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8.94254 )
