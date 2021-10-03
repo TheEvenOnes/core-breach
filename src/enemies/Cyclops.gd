@@ -53,7 +53,7 @@ static func follow(
 ) -> Vector3:
 
   var distance = (target_position.distance_to(src_position) - min_distance)
-  print(distance)
+
   if distance <= distance_threshhold:
     return vec3_clamped(src_velocity, max_speed)
   var desired_velocity := (target_position - src_position).normalized() * max_speed
