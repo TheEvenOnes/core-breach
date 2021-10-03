@@ -1,5 +1,8 @@
 extends RigidBody
 
+const HealthPickup := preload('res://src/pickups/HealthPickup.tscn')
+const CoolantPickup := preload('res://src/pickups/CoolantPickup.tscn')
+
 const CrateExplodeFX := preload('res://src/objects/CrateExplodeFX.tscn')
 
 const MAX_HEALTH := 5.0
@@ -37,4 +40,13 @@ func damage(amount: float) -> void:
     var fx = CrateExplodeFX.instance()
     fx.global_transform.origin = global_transform.origin
     get_parent().add_child(fx)
+
+    var clazz = [HealthPickup, HealthPickup, CoolantPickup, CoolantPickup][randi() % 4]
+    var pickup = clazz.instance()
+
+    pickup.global_transform.origin = global_transform.origin
+
+    get_parent().add_child(pickup)
+
+
     queue_free()
