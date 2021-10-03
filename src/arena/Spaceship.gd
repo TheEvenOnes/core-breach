@@ -5,11 +5,61 @@ const SkyboxRes := preload('res://assets/simple_skybox/Skybox.tscn')
 
 export (float) var acceleration = 10.0
 
+export (float) var max_health := 100.0
+export (float) var health_regen := 0.0
+export (float) var max_ammo := 100.0
+export (float) var ammo_regen := 20.0
+export (float) var core_meltdown_timer := 60.0
+
+var health := max_health
+var ammo := max_ammo
+
 var mouse_captured = true
 
 var mouse_deltas := Vector2.ZERO
 var skyboxI: Spatial
 const skybox_scale = Vector3(100, 100, 100)  # 100 * (-4.4 -> 4.4)
+
+func update_state(delta: float) -> void:
+  health = min(health + health_regen * delta, max_health)
+  ammo = min(ammo + ammo_regen * delta, max_ammo)
+  core_meltdown_timer = max(0.0, core_meltdown_timer - delta)
+
+func update_gui() -> void:
+  var target = $InterpolatedCamera/GUI/CrossTarget
+
+  var center = get_viewport().size * 0.5
+  target.position = target.position.linear_interpolate(center + mouse_deltas * 16.0, 0.025)
+
+  var distance = target.position.distance_to(center)
+  var away_from_center = target.position - center
+
+  target.rotation = away_from_center.angle() + deg2rad(90.0)
+
+  if distance < 64:
+    target.modulate.a = smoothstep(0.0, 1.0, distance / 64.0)
+  else:
+    target.modulate.a = 1.0
+
+  $InterpolatedCamera/GUI/Health.rect_scale.y = min(1.0, health / max_health)
+  $InterpolatedCamera/GUI/HealthLabel.text = str(int($InterpolatedCamera/GUI/Health.rect_scale.y * 100)) + "%"
+  $InterpolatedCamera/GUI/Ammo.rect_scale.y = min(1.0, ammo / max_ammo)
+  $InterpolatedCamera/GUI/AmmoLabel.text = str(int($InterpolatedCamera/GUI/Ammo.rect_scale.y * 100)) + "%"
+
+  $InterpolatedCamera/GUI/CoreMeltdown/In.text = str(int(core_meltdown_timer)) + " seconds"
+
+  if core_meltdown_timer < 30.0:
+    pass
+
+func process_shoot() -> void:
+  var AMMO_COST = 10.0
+  if Input.is_action_just_pressed('fire_primary') && ammo > AMMO_COST:
+    ammo = max(0.0, ammo - AMMO_COST)
+    var projectile = Projectile.instance()
+    projectile.global_transform = $InterpolatedCamera/ProjectileShooter.global_transform
+    projectile.apply_central_impulse(projectile.transform.basis.z * -projectile.speed)
+    get_parent().add_child(projectile)
+    $AudioStreamPlayer3D.play()
 
 func _ready() -> void:
   linear_damp = 1.5
@@ -39,22 +89,6 @@ func _input(event: InputEvent) -> void:
 func play_sfx_core():
   if !$CoreSFX.playing:
     $CoreSFX.play()
-
-func update_crosshair_target() -> void:
-  var target = $InterpolatedCamera/GUI/CrossTarget
-
-  var center = get_viewport().size * 0.5
-  target.position = target.position.linear_interpolate(center + mouse_deltas * 16.0, 0.025)
-
-  var distance = target.position.distance_to(center)
-  var away_from_center = target.position - center
-
-  target.rotation = away_from_center.angle() + deg2rad(90.0)
-
-  if distance < 64:
-    target.modulate.a = smoothstep(0.0, 1.0, distance / 64.0)
-  else:
-    target.modulate.a = 1.0
 
 func _physics_process(delta: float) -> void:
   if Input.is_action_just_released('ui_cancel'):
@@ -86,12 +120,8 @@ func _physics_process(delta: float) -> void:
     add_torque(transform.basis.z * acceleration)
   if Input.is_action_pressed('roll_right'):
     add_torque(transform.basis.z * (-acceleration))
-  if Input.is_action_just_pressed('fire_primary'):
-    var projectile = Projectile.instance()
-    projectile.global_transform = $InterpolatedCamera/ProjectileShooter.global_transform
-    projectile.apply_central_impulse(projectile.transform.basis.z * -projectile.speed)
-    get_parent().add_child(projectile)
-    $AudioStreamPlayer3D.play()
+
+  process_shoot()
 
   var yaw = mouse_deltas.x
   var pitch = mouse_deltas.y
@@ -99,7 +129,8 @@ func _physics_process(delta: float) -> void:
   add_torque(transform.basis.y * (-yaw))
   add_torque(transform.basis.x * (-pitch))
 
-  update_crosshair_target()
+  update_state(delta)
+  update_gui()
 
   mouse_deltas *= 0.5
 
