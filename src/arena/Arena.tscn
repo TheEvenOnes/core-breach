@@ -40,7 +40,7 @@ emission_on_uv2 = false
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 1.6 )
 current = true
 target = NodePath("../Spaceship/InterpolatedCamera")
-speed = 20.0
+speed = 30.0
 enabled = true
 
 [node name="Spaceship" type="RigidBody" parent="."]
