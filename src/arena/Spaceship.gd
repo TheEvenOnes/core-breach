@@ -1,7 +1,7 @@
 extends RigidBody
 
 const Projectile := preload('res://src/weapon/Projectile.tscn')
-const SkyboxRes := preload('res://assets/simple_skybox/Skybox.tscn')
+# const SkyboxRes := preload('res://assets/simple_skybox/Skybox.tscn')
 
 export (float) var acceleration = 10.0
 
@@ -15,6 +15,8 @@ export (float) var core_meltdown_timer := 30.0
 
 onready var health := current_health
 onready var ammo := current_ammo
+
+var coins := 0
 
 var mouse_captured = true
 
@@ -49,6 +51,7 @@ func update_gui() -> void:
   $Camera/GUI/HealthLabel.text = str(int($Camera/GUI/Health.rect_scale.y * 100)) + "%"
   $Camera/GUI/Ammo.rect_scale.y = min(1.0, ammo / max_ammo)
   $Camera/GUI/AmmoLabel.text = str(int($Camera/GUI/Ammo.rect_scale.y * 100)) + "%"
+  $Camera/GUI/CoinsLabel.text = "Coins: " + str(coins)
 
   $Camera/GUI/CoreMeltdown/In.text = str(int(core_meltdown_timer)) + " seconds"
 
@@ -57,11 +60,9 @@ func update_gui() -> void:
     $Camera/GUI/CoreMeltdown.modulate.r = 1
     $Camera/GUI/CoreMeltdown.modulate.g = 0
     $Camera/GUI/CoreMeltdown.modulate.b = 0
-    $CracklingSFX.unit_db = -20 * core_meltdown_timer / 10.0
   else:
     $Camera/GUI/CoreMeltdown.modulate = Color(1, 1, 1)
     if core_meltdown_timer < 30.0:
-      $CracklingSFX.unit_db = -20
       $Camera/GUI/CoreMeltdown.modulate.a = 0.4 + 0.2 * sin(elapsed * 4)
 
 func process_shoot() -> void:
@@ -75,8 +76,6 @@ func process_shoot() -> void:
     $AudioStreamPlayer3D.play()
 
 func _ready() -> void:
-  $CracklingSFX.play()
-  $CracklingSFX.unit_db = -100
 
   contact_monitor = true
   contacts_reported = true
@@ -87,17 +86,17 @@ func _ready() -> void:
   target.position = center
   Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
-  var skybox := SkyboxRes.instance()
-  skybox.TextureFront = load('res://assets/skybox1/front.png')
-  skybox.TextureBack = load('res://assets/skybox1/back.png')
-  skybox.TextureUp = load('res://assets/skybox1/top.png')
-  skybox.TextureBottom = load('res://assets/skybox1/bottom.png')
-  skybox.TextureLeft = load('res://assets/skybox1/right.png')  # sic
-  skybox.TextureRight = load('res://assets/skybox1/left.png')  # sic
-  skybox.name = 'Skybox'
-  get_parent().get_node('InterpolatedCamera2').add_child(skybox)
-  skyboxI = skybox
-  skybox.global_scale(skybox_scale)
+  #var skybox := SkyboxRes.instance()
+  #skybox.TextureFront = load('res://assets/skybox1/front.png')
+  #skybox.TextureBack = load('res://assets/skybox1/back.png')
+  #skybox.TextureUp = load('res://assets/skybox1/top.png')
+  #skybox.TextureBottom = load('res://assets/skybox1/bottom.png')
+  #skybox.TextureLeft = load('res://assets/skybox1/right.png')  # sic
+  #skybox.TextureRight = load('res://assets/skybox1/left.png')  # sic
+  #skybox.name = 'Skybox'
+  #get_parent().get_node('InterpolatedCamera2').add_child(skybox)
+  #skyboxI = skybox
+  #skybox.global_scale(skybox_scale)
 
 func _input(event: InputEvent) -> void:
   if event is InputEventMouseMotion:
@@ -157,15 +156,18 @@ func _physics_process(delta: float) -> void:
   play_sfx_core()
   $CoreSFX.pitch_scale = 1.0 + linear_velocity.length() / 5.0
 
-  var skybox = skyboxI
-  var origin: Vector3
-  origin = skybox.global_transform.origin
-  skybox.global_transform = Transform.IDENTITY
-  skybox.global_transform.origin = origin
-  skybox.global_scale(skybox_scale)
+  #var skybox = skyboxI
+  #var origin: Vector3
+  #origin = skybox.global_transform.origin
+  #skybox.global_transform = Transform.IDENTITY
+  #skybox.global_transform.origin = origin
+  #skybox.global_scale(skybox_scale)
 
 func heal(amount: float) -> void:
   health = min(max_health, health + amount)
 
 func add_core_time(amount: float) -> void:
   core_meltdown_timer += amount
+
+func add_coins(amount: int) -> void:
+  coins += amount

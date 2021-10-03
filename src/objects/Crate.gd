@@ -2,6 +2,7 @@ extends RigidBody
 
 const HealthPickup := preload('res://src/pickups/HealthPickup.tscn')
 const CoolantPickup := preload('res://src/pickups/CoolantPickup.tscn')
+const CoinPickup := preload('res://src/pickups/CoinPickup.tscn')
 
 const CrateExplodeFX := preload('res://src/objects/CrateExplodeFX.tscn')
 
@@ -19,6 +20,7 @@ func _physics_process(delta: float) -> void:
   var dist_to_player = global_transform.origin.distance_to(player.global_transform.origin)
 
   $Control/ColorRect.rect_position = pos + Vector2(-32, - 32 + 16 * clamp(2.0 / dist_to_player, 0.0, 1.0))
+  $Control/ColorRect.rect_scale = Vector2(min(1.0, 4.0 / dist_to_player), min(1.0, 4.0 / dist_to_player))
   var direction = -player.global_transform.basis.z
 
   var to_player = global_transform.origin - player.global_transform.origin
@@ -41,7 +43,7 @@ func damage(amount: float) -> void:
     fx.global_transform.origin = global_transform.origin
     get_parent().add_child(fx)
 
-    var clazz = [HealthPickup, HealthPickup, CoolantPickup, CoolantPickup][randi() % 4]
+    var clazz = [HealthPickup, HealthPickup, CoolantPickup, CoolantPickup, CoinPickup, CoinPickup, CoinPickup, CoinPickup][randi() % 8]
     var pickup = clazz.instance()
 
     pickup.global_transform.origin = global_transform.origin
