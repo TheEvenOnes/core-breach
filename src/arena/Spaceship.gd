@@ -6,19 +6,23 @@ const SkyboxRes := preload('res://assets/simple_skybox/Skybox.tscn')
 export (float) var acceleration = 10.0
 
 export (float) var max_health := 100.0
+export (float) var current_health := 100.0
 export (float) var health_regen := 0.0
 export (float) var max_ammo := 100.0
+export (float) var current_ammo := 100.0
 export (float) var ammo_regen := 20.0
-export (float) var core_meltdown_timer := 60.0
+export (float) var core_meltdown_timer := 30.0
 
-var health := max_health
-var ammo := max_ammo
+onready var health := current_health
+onready var ammo := current_ammo
 
 var mouse_captured = true
 
 var mouse_deltas := Vector2.ZERO
 var skyboxI: Spatial
 const skybox_scale = Vector3(100, 100, 100)  # 100 * (-4.4 -> 4.4)
+
+var elapsed := 0.0
 
 func update_state(delta: float) -> void:
   health = min(health + health_regen * delta, max_health)
@@ -49,7 +53,14 @@ func update_gui() -> void:
   $InterpolatedCamera/GUI/CoreMeltdown/In.text = str(int(core_meltdown_timer)) + " seconds"
 
   if core_meltdown_timer < 30.0:
-    pass
+    $InterpolatedCamera/GUI/CoreMeltdown.modulate.a = 0.5 + 0.25 * sin(elapsed * 4)
+  else:
+    $InterpolatedCamera/GUI/CoreMeltdown.modulate = Color(1, 1, 1)
+  if core_meltdown_timer < 10.0:
+    $InterpolatedCamera/GUI/CoreMeltdown.modulate.a = 0.5 + 0.25 * sin(elapsed * 6)
+    $InterpolatedCamera/GUI/CoreMeltdown.modulate.r = 1
+    $InterpolatedCamera/GUI/CoreMeltdown.modulate.g = 0
+    $InterpolatedCamera/GUI/CoreMeltdown.modulate.b = 0
 
 func process_shoot() -> void:
   var AMMO_COST = 10.0
@@ -62,6 +73,8 @@ func process_shoot() -> void:
     $AudioStreamPlayer3D.play()
 
 func _ready() -> void:
+  contact_monitor = true
+  contacts_reported = true
   linear_damp = 1.5
   angular_damp = 3.0
   var target = $InterpolatedCamera/GUI/CrossTarget
@@ -91,6 +104,8 @@ func play_sfx_core():
     $CoreSFX.play()
 
 func _physics_process(delta: float) -> void:
+  elapsed += delta
+
   if Input.is_action_just_released('ui_cancel'):
     get_tree().quit()
 
@@ -111,23 +126,23 @@ func _physics_process(delta: float) -> void:
   if Input.is_action_pressed('throttle_up'):
     add_force(transform.basis.y * acceleration, Vector3.ZERO)
   if Input.is_action_pressed('throttle_down'):
-    add_force(transform.basis.y * (-acceleration), Vector3.ZERO)
+    add_force(transform.basis.y * -acceleration, Vector3.ZERO)
   if Input.is_action_pressed('throttle_left'):
-    add_force(transform.basis.x * (-acceleration), Vector3.ZERO)
+    add_force(transform.basis.x * -acceleration, Vector3.ZERO)
   if Input.is_action_pressed('throttle_right'):
     add_force(transform.basis.x * acceleration, Vector3.ZERO)
   if Input.is_action_pressed('roll_left'):
-    add_torque(transform.basis.z * acceleration)
+    add_torque(transform.basis.z * acceleration * 0.1)
   if Input.is_action_pressed('roll_right'):
-    add_torque(transform.basis.z * (-acceleration))
-
-  process_shoot()
+    add_torque(transform.basis.z * -acceleration * 0.1)
 
   var yaw = mouse_deltas.x
   var pitch = mouse_deltas.y
 
   add_torque(transform.basis.y * (-yaw))
   add_torque(transform.basis.x * (-pitch))
+
+  process_shoot()
 
   update_state(delta)
   update_gui()
@@ -143,3 +158,9 @@ func _physics_process(delta: float) -> void:
   skybox.global_transform = Transform.IDENTITY
   skybox.global_transform.origin = origin
   skybox.global_scale(skybox_scale)
+
+func heal(amount: float) -> void:
+  health = min(max_health, health + amount)
+
+func add_core_time(amount: float) -> void:
+  core_meltdown_timer += amount
