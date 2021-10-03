@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://src/arena/Spaceship.gd" type="Script" id=1]
 [ext_resource path="res://assets/crosshair.png" type="Texture" id=2]
@@ -12,6 +12,8 @@
 [ext_resource path="res://src/pickups/HealthPickup.tscn" type="PackedScene" id=10]
 [ext_resource path="res://src/objects/Crate.tscn" type="PackedScene" id=11]
 [ext_resource path="res://src/enemies/Cyclops.tscn" type="PackedScene" id=12]
+[ext_resource path="res://src/pickups/CoolantPickup.tscn" type="PackedScene" id=13]
+[ext_resource path="res://assets/398274__flashtrauma__electricity.wav" type="AudioStream" id=14]
 
 [sub_resource type="CapsuleShape" id=1]
 
@@ -41,7 +43,7 @@ emission_on_uv2 = false
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 1.6 )
 current = true
 far = 750.0
-target = NodePath("../Spaceship/InterpolatedCamera")
+target = NodePath("../Spaceship/Camera")
 speed = 30.0
 enabled = true
 
@@ -50,8 +52,7 @@ enabled = true
 ]]
 contact_monitor = true
 script = ExtResource( 1 )
-current_health = 20.0
-current_ammo = 0.0
+ammo_regen = 10.0
 
 [node name="CollisionShape" type="CollisionShape" parent="Spaceship"]
 shape = SubResource( 1 )
@@ -71,18 +72,21 @@ transform = Transform( -1.31134e-08, -2.53526e-07, 0.8, 1.78629e-08, 0.8, 1.8291
 mesh = SubResource( 2 )
 material/0 = null
 
-[node name="InterpolatedCamera" type="InterpolatedCamera" parent="Spaceship"]
+[node name="Camera" type="Camera" parent="Spaceship"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 1.6 )
 far = 750.0
 
-[node name="GUI" type="Control" parent="Spaceship/InterpolatedCamera"]
+[node name="ProjectileShooter" type="Position3D" parent="Spaceship/Camera"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.17811 )
+
+[node name="GUI" type="Control" parent="Spaceship/Camera"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Crosshair" type="TextureRect" parent="Spaceship/InterpolatedCamera/GUI"]
+[node name="Crosshair" type="TextureRect" parent="Spaceship/Camera/GUI"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -96,12 +100,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CrossTarget" type="Sprite" parent="Spaceship/InterpolatedCamera/GUI"]
+[node name="CrossTarget" type="Sprite" parent="Spaceship/Camera/GUI"]
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 511.58, 302.984 )
 texture = ExtResource( 3 )
 
-[node name="Health" type="ColorRect" parent="Spaceship/InterpolatedCamera/GUI"]
+[node name="Health" type="ColorRect" parent="Spaceship/Camera/GUI"]
 margin_left = 472.0
 margin_top = 280.0
 margin_right = 480.0
@@ -112,7 +116,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HealthLabel" type="Label" parent="Spaceship/InterpolatedCamera/GUI"]
+[node name="HealthLabel" type="Label" parent="Spaceship/Camera/GUI"]
 margin_left = 432.0
 margin_top = 312.0
 margin_right = 472.0
@@ -126,7 +130,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CoreMeltdown" type="Label" parent="Spaceship/InterpolatedCamera/GUI"]
+[node name="CoreMeltdown" type="Label" parent="Spaceship/Camera/GUI"]
 margin_left = 384.0
 margin_top = 32.0
 margin_right = 640.0
@@ -140,7 +144,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="In" type="Label" parent="Spaceship/InterpolatedCamera/GUI/CoreMeltdown"]
+[node name="In" type="Label" parent="Spaceship/Camera/GUI/CoreMeltdown"]
 margin_top = 32.0
 margin_right = 256.0
 margin_bottom = 64.0
@@ -153,7 +157,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Ammo" type="ColorRect" parent="Spaceship/InterpolatedCamera/GUI"]
+[node name="Ammo" type="ColorRect" parent="Spaceship/Camera/GUI"]
 margin_left = 544.0
 margin_top = 280.0
 margin_right = 552.0
@@ -161,7 +165,7 @@ margin_bottom = 320.0
 rect_pivot_offset = Vector2( 0, 40 )
 color = Color( 0, 1, 0, 1 )
 
-[node name="AmmoLabel" type="Label" parent="Spaceship/InterpolatedCamera/GUI"]
+[node name="AmmoLabel" type="Label" parent="Spaceship/Camera/GUI"]
 margin_left = 552.0
 margin_top = 312.0
 margin_right = 592.0
@@ -174,9 +178,6 @@ valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="ProjectileShooter" type="Position3D" parent="Spaceship/InterpolatedCamera"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.17811 )
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Spaceship"]
 stream = ExtResource( 4 )
@@ -191,6 +192,9 @@ attenuation_model = 2
 unit_db = -20.0
 unit_size = 3.0
 bus = "Sounds"
+
+[node name="CracklingSFX" type="AudioStreamPlayer3D" parent="Spaceship"]
+stream = ExtResource( 14 )
 
 [node name="Crate" parent="." instance=ExtResource( 11 )]
 
@@ -262,3 +266,45 @@ bus = "Music"
 
 [node name="HealthPickup" parent="." instance=ExtResource( 10 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.4, 0, -4.8 )
+
+[node name="CoolantPickup" parent="." instance=ExtResource( 13 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6, 0, 0 )
+
+[node name="CoolantPickup2" parent="." instance=ExtResource( 13 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7.24389, 0, 0 )
+
+[node name="CoolantPickup3" parent="." instance=ExtResource( 13 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.88705, 0, 0 )
+
+[node name="CoolantPickup4" parent="." instance=ExtResource( 13 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5309, 0, 0 )
+
+[node name="CoolantPickup5" parent="." instance=ExtResource( 13 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 15.3282, 0, 0 )
+
+[node name="CoolantPickup6" parent="." instance=ExtResource( 13 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 17.9721, 0, 0 )
+
+[node name="CoolantPickup7" parent="." instance=ExtResource( 13 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20.7327, 0, 0 )
+
+[node name="CoolantPickup8" parent="." instance=ExtResource( 13 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 23.3766, 0, 0 )
+
+[node name="CoolantPickup9" parent="." instance=ExtResource( 13 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 26.237, 0, 0 )
+
+[node name="CoolantPickup10" parent="." instance=ExtResource( 13 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 28.8809, 0, 0 )
+
+[node name="CoolantPickup11" parent="." instance=ExtResource( 13 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 31.7185, 0, 0 )
+
+[node name="CoolantPickup12" parent="." instance=ExtResource( 13 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 34.3624, 0, 0 )
+
+[node name="CoolantPickup13" parent="." instance=ExtResource( 13 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 37.5024, 0, 0 )
+
+[node name="CoolantPickup14" parent="." instance=ExtResource( 13 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 40.1463, 0, 0 )

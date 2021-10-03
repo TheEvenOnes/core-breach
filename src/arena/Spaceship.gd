@@ -30,10 +30,10 @@ func update_state(delta: float) -> void:
   core_meltdown_timer = max(0.0, core_meltdown_timer - delta)
 
 func update_gui() -> void:
-  var target = $InterpolatedCamera/GUI/CrossTarget
+  var target = $Camera/GUI/CrossTarget
 
   var center = get_viewport().size * 0.5
-  target.position = target.position.linear_interpolate(center + mouse_deltas * 16.0, 0.025)
+  target.position = target.position.linear_interpolate(center + mouse_deltas * 32.0, 0.025)
 
   var distance = target.position.distance_to(center)
   var away_from_center = target.position - center
@@ -45,39 +45,44 @@ func update_gui() -> void:
   else:
     target.modulate.a = 1.0
 
-  $InterpolatedCamera/GUI/Health.rect_scale.y = min(1.0, health / max_health)
-  $InterpolatedCamera/GUI/HealthLabel.text = str(int($InterpolatedCamera/GUI/Health.rect_scale.y * 100)) + "%"
-  $InterpolatedCamera/GUI/Ammo.rect_scale.y = min(1.0, ammo / max_ammo)
-  $InterpolatedCamera/GUI/AmmoLabel.text = str(int($InterpolatedCamera/GUI/Ammo.rect_scale.y * 100)) + "%"
+  $Camera/GUI/Health.rect_scale.y = min(1.0, health / max_health)
+  $Camera/GUI/HealthLabel.text = str(int($Camera/GUI/Health.rect_scale.y * 100)) + "%"
+  $Camera/GUI/Ammo.rect_scale.y = min(1.0, ammo / max_ammo)
+  $Camera/GUI/AmmoLabel.text = str(int($Camera/GUI/Ammo.rect_scale.y * 100)) + "%"
 
-  $InterpolatedCamera/GUI/CoreMeltdown/In.text = str(int(core_meltdown_timer)) + " seconds"
+  $Camera/GUI/CoreMeltdown/In.text = str(int(core_meltdown_timer)) + " seconds"
 
-  if core_meltdown_timer < 30.0:
-    $InterpolatedCamera/GUI/CoreMeltdown.modulate.a = 0.5 + 0.25 * sin(elapsed * 4)
-  else:
-    $InterpolatedCamera/GUI/CoreMeltdown.modulate = Color(1, 1, 1)
   if core_meltdown_timer < 10.0:
-    $InterpolatedCamera/GUI/CoreMeltdown.modulate.a = 0.5 + 0.25 * sin(elapsed * 6)
-    $InterpolatedCamera/GUI/CoreMeltdown.modulate.r = 1
-    $InterpolatedCamera/GUI/CoreMeltdown.modulate.g = 0
-    $InterpolatedCamera/GUI/CoreMeltdown.modulate.b = 0
+    $Camera/GUI/CoreMeltdown.modulate.a = 0.5 + 0.25 * sin(elapsed * 6)
+    $Camera/GUI/CoreMeltdown.modulate.r = 1
+    $Camera/GUI/CoreMeltdown.modulate.g = 0
+    $Camera/GUI/CoreMeltdown.modulate.b = 0
+    $CracklingSFX.unit_db = -20 * core_meltdown_timer / 10.0
+  else:
+    $Camera/GUI/CoreMeltdown.modulate = Color(1, 1, 1)
+    if core_meltdown_timer < 30.0:
+      $CracklingSFX.unit_db = -20
+      $Camera/GUI/CoreMeltdown.modulate.a = 0.4 + 0.2 * sin(elapsed * 4)
 
 func process_shoot() -> void:
   var AMMO_COST = 10.0
   if Input.is_action_just_pressed('fire_primary') && ammo > AMMO_COST:
     ammo = max(0.0, ammo - AMMO_COST)
     var projectile = Projectile.instance()
-    projectile.global_transform = $InterpolatedCamera/ProjectileShooter.global_transform
+    projectile.global_transform = $Camera/ProjectileShooter.global_transform
     projectile.apply_central_impulse(projectile.transform.basis.z * -projectile.speed)
     get_parent().add_child(projectile)
     $AudioStreamPlayer3D.play()
 
 func _ready() -> void:
+  $CracklingSFX.play()
+  $CracklingSFX.unit_db = -100
+
   contact_monitor = true
   contacts_reported = true
   linear_damp = 1.5
   angular_damp = 3.0
-  var target = $InterpolatedCamera/GUI/CrossTarget
+  var target = $Camera/GUI/CrossTarget
   var center = get_viewport().size * 0.5
   target.position = center
   Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -132,9 +137,9 @@ func _physics_process(delta: float) -> void:
   if Input.is_action_pressed('throttle_right'):
     add_force(transform.basis.x * acceleration, Vector3.ZERO)
   if Input.is_action_pressed('roll_left'):
-    add_torque(transform.basis.z * acceleration * 0.1)
+    add_torque(transform.basis.z * acceleration * 0.2)
   if Input.is_action_pressed('roll_right'):
-    add_torque(transform.basis.z * -acceleration * 0.1)
+    add_torque(transform.basis.z * -acceleration * 0.2)
 
   var yaw = mouse_deltas.x
   var pitch = mouse_deltas.y

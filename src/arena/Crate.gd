@@ -5,7 +5,7 @@ const CoolantPickup := preload('res://src/pickups/CoolantPickup.tscn')
 
 const CrateExplodeFX := preload('res://src/objects/CrateExplodeFX.tscn')
 
-const MAX_HEALTH := 5.0
+const MAX_HEALTH := 2.0
 var health := MAX_HEALTH
 
 func _ready() -> void:

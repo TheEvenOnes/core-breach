@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/398274__flashtrauma__electricity.wav-997031a7d735084f202de0849590370a.sample"
+
+[deps]
+
+source_file="res://assets/398274__flashtrauma__electricity.wav"
+dest_files=[ "res://.import/398274__flashtrauma__electricity.wav-997031a7d735084f202de0849590370a.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=false
+edit/loop=true
+compress/mode=0
