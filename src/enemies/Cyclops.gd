@@ -1,6 +1,6 @@
 extends KinematicBody
 
-const DEFAULT_MASS = 2.0
+const DEFAULT_MASS = 200.0
 const DEFAULT_MAX_SPEED = 10.0
 const DEFAULT_SLOWDOWN_RADIUS = 10.0
 const DEFAULT_RADIUS = 40.0
@@ -24,13 +24,11 @@ func _physics_process(delta):
   var pos_other: Vector3 = other.global_transform.origin
 
   var new_velocity: Vector3 = follow(pos_own, velocity, pos_other)
-  print(pos_own, pos_other, Target, velocity, new_velocity)
   velocity = new_velocity
 
-  look_at_from_position(Vector3.ZERO, velocity, Vector3.UP)
-  #global_transform = Transform.IDENTITY
-  #global_transform.origin = pos_own + velocity * delta
-  #global_transform = global_transform.looking_at(new_velocity, Vector3.UP)
+  var global_up_pos: Vector3 = to_global(Vector3.UP)
+  var global_up: Vector3 = (global_up_pos - global_transform.origin).normalized()
+  look_at_from_position(Vector3.ZERO, velocity, global_up)
 
   velocity = move_and_slide(velocity, Vector3.UP)
 
@@ -53,7 +51,6 @@ static func follow(
 ) -> Vector3:
 
   var distance = (target_position.distance_to(src_position) - min_distance)
-
   if distance <= distance_threshhold:
     return vec3_clamped(src_velocity, max_speed)
   var desired_velocity := (target_position - src_position).normalized() * max_speed
