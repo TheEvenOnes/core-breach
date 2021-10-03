@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://src/arena/Spaceship.gd" type="Script" id=1]
 [ext_resource path="res://assets/crosshair.png" type="Texture" id=2]
@@ -14,6 +14,7 @@
 [ext_resource path="res://src/enemies/Cyclops.tscn" type="PackedScene" id=12]
 [ext_resource path="res://src/pickups/CoolantPickup.tscn" type="PackedScene" id=13]
 [ext_resource path="res://assets/398274__flashtrauma__electricity.wav" type="AudioStream" id=14]
+[ext_resource path="res://src/arena/InterpolatedCamera2.gd" type="Script" id=15]
 
 [sub_resource type="CapsuleShape" id=1]
 
@@ -39,13 +40,11 @@ emission_on_uv2 = false
 
 [node name="Arena" type="Spatial"]
 
-[node name="InterpolatedCamera2" type="InterpolatedCamera" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 1.6 )
+[node name="InterpolatedCamera2" type="Camera" parent="."]
 current = true
 far = 750.0
+script = ExtResource( 15 )
 target = NodePath("../Spaceship/Camera")
-speed = 30.0
-enabled = true
 
 [node name="Spaceship" type="RigidBody" parent="." groups=[
 "player.ship",
