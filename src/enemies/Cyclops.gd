@@ -2,20 +2,15 @@ extends KinematicBody
 
 const DEFAULT_MASS = 200.0
 const DEFAULT_MAX_SPEED = 10.0
-const DEFAULT_SLOWDOWN_RADIUS = 10.0
+const DEFAULT_SLOWDOWN_RADIUS = 4.0
 const DEFAULT_RADIUS = 40.0
-const DEFAULT_MINIMUM_DISTANCE = 3.0
+const DEFAULT_MINIMUM_DISTANCE = 2.0
 const DEFAULT_MINIMUM_SPEED = 0.2
 const DEFAULT_DISTANCE_THRESHOLD = 1.0
 
 export(NodePath) var Target = null
 
 var velocity: Vector3 = Vector3.FORWARD
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-  pass # Replace with function body.
-
 
 
 func _physics_process(delta):
@@ -29,8 +24,7 @@ func _physics_process(delta):
   var global_up_pos: Vector3 = to_global(Vector3.UP)
   var global_up: Vector3 = (global_up_pos - global_transform.origin).normalized()
   look_at_from_position(Vector3.ZERO, velocity, global_up)
-
-  velocity = move_and_slide(velocity, Vector3.UP)
+  velocity = move_and_slide(velocity*250, Vector3.UP)/250
 
 static func vec3_clamped(vec: Vector3, clmp: float) -> Vector3:
   var l := vec.length()
