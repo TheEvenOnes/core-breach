@@ -31,15 +31,6 @@ func _ready() -> void:
   skyboxI = skybox
   skybox.global_scale(skybox_scale)
 
-  yield (get_tree().create_timer(0.002), 'timeout')
-  var mesh: MeshInstance = skybox.get_child(0)
-  #for i in range(6):
-    #var mat: SpatialMaterial = mesh.get_surface_material(i)
-    #mat.params_depth_draw_mode = SpatialMaterial.DEPTH_DRAW_DISABLED
-    #mat.flags_no_depth_test = true
-    #mat.render_priority = SpatialMaterial.RENDER_PRIORITY_MAX
-    #mat.flags_transparent = true
-
 func _input(event: InputEvent) -> void:
   if event is InputEventMouseMotion:
     if mouse_captured:
