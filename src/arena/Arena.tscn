@@ -103,12 +103,14 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.17811 )
 stream = ExtResource( 4 )
 attenuation_model = 2
 unit_size = 2.0
+bus = "Sounds"
 
 [node name="CoreSFX" type="AudioStreamPlayer3D" parent="Spaceship"]
 stream = ExtResource( 5 )
 attenuation_model = 2
 unit_db = 2.0
 unit_size = 3.0
+bus = "Sounds"
 
 [node name="Crate" type="RigidBody" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8.3 )
@@ -128,6 +130,7 @@ stream = ExtResource( 6 )
 volume_db = -20.0
 pitch_scale = 0.5
 autoplay = true
+bus = "Sounds"
 
 [node name="Beacon" type="RigidBody" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6.17918, 0, -10.7562 )
@@ -162,3 +165,4 @@ shadow_color = Color( 0.0941176, 0.215686, 0.407843, 1 )
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 8 )
 autoplay = true
+bus = "Music"
