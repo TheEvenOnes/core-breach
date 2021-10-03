@@ -39,6 +39,7 @@ emission_on_uv2 = false
 [node name="InterpolatedCamera2" type="InterpolatedCamera" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 1.6 )
 current = true
+far = 750.0
 target = NodePath("../Spaceship/InterpolatedCamera")
 speed = 30.0
 enabled = true
@@ -66,6 +67,7 @@ material/0 = null
 
 [node name="InterpolatedCamera" type="InterpolatedCamera" parent="Spaceship"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 1.6 )
+far = 750.0
 
 [node name="GUI" type="Control" parent="Spaceship/InterpolatedCamera"]
 anchor_right = 1.0
