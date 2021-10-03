@@ -19,7 +19,7 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
   if event is InputEventMouseMotion:
     if mouse_captured:
-      mouse_deltas += event.relative * 250.0 * 1.0 / get_viewport().size
+      mouse_deltas += event.relative * 150.0 * 1.0 / get_viewport().size
 
 func play_sfx_core():
   if !$CoreSFX.playing:
