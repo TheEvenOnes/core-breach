@@ -3,7 +3,7 @@ extends RigidBody
 const ProjectileExplodeEffect := preload('res://src/weapon/ProjectileExplodeEffect.tscn')
 
 export (Color) var energy_color := Color.red
-export (float) var damage := 5.0
+export (float) var damage := 40.0
 export (float) var speed := 80.0
 var lifetime := 5.0
 

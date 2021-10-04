@@ -1,6 +1,8 @@
 extends RigidBody
 
 const Projectile := preload('res://src/weapon/Projectile.tscn')
+const Boom := preload('res://src/objects/CrateExplodeFX.tscn')
+const Menu := preload('res://src/menu/Menu.tscn')
 # const SkyboxRes := preload('res://assets/simple_skybox/Skybox.tscn')
 
 export (float) var acceleration = 10.0
@@ -176,3 +178,10 @@ func add_coins(amount: int) -> void:
 
 func damage(amount: float) -> void:
   health = max(0.0, health - amount)
+  if health <= 0.0:
+    var fx = Boom.instance()
+    FxManager.add_fx(fx)
+    fx.global_transform = global_transform
+    yield(get_tree().create_timer(0.5), 'timeout')
+    Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+    ArenaManager.set_arena(Menu.instance())

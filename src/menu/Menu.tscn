@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://src/pickups/HealthPickup.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/pickups/CoinPickup.tscn" type="PackedScene" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://src/menu/Start.gd" type="Script" id=8]
 [ext_resource path="res://src/menu/Exit.gd" type="Script" id=9]
 [ext_resource path="res://src/menu/Help.gd" type="Script" id=10]
+[ext_resource path="res://assets/help.png" type="Texture" id=11]
 
 [node name="Spatial" type="Spatial"]
 
@@ -103,6 +104,12 @@ text = "Ludum Dare 49 - https://github.com/TheEvenOnes/core-breach"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="TextureRect" type="TextureRect" parent="Control"]
+margin_left = 792.0
+margin_right = 1560.0
+margin_bottom = 336.0
+texture = ExtResource( 11 )
 
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 0.938204, -0.184664, 0.292698, 0, 0.845747, 0.533584, -0.346082, -0.50061, 0.793484, 3.65304, 6.65944, 9.90315 )
