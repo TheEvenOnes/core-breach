@@ -41,6 +41,6 @@ func setup() -> void:
     var slot: Position3D = slots[index]
     slots.remove(index)
     var tile: Spatial = TILE[int((0.5 + 0.5 * rng.get_noise_1d(i * 100)) * 100) % TILE.size()].instance()
+    slot.add_child(tile)
     tile.global_transform.origin = slot.global_transform.origin
     tile.global_transform.origin.y = (0.5 * rng.get_noise_1d(i * 25)) * 10.0
-    slot.add_child(tile)
