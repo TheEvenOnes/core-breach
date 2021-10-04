@@ -1,6 +1,6 @@
 extends Area
 
-const CoinPickupFX := preload('res://src/pickups/CoinPickupFX.tscn')
+const PickupFX := preload('res://src/pickups/PickupFX.tscn')
 
 var elapsed := 0.0
 
@@ -14,8 +14,9 @@ func _physics_process(delta: float) -> void:
     for body in bodies:
       if body.is_in_group('player.ship'):
         body.add_coins(1)
-        var fx = CoinPickupFX.instance()
-        get_parent().add_child(fx)
+        var fx = PickupFX.instance()
+        FxManager.add_fx(fx)
+        fx.fx_color = Color.yellow
         fx.global_transform.origin = global_transform.origin
         queue_free()
         break

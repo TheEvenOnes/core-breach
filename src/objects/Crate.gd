@@ -40,15 +40,12 @@ func damage(amount: float) -> void:
   health -= amount
   if health < 0.0:
     var fx = CrateExplodeFX.instance()
+    FxManager.add_fx(fx)
     fx.global_transform.origin = global_transform.origin
-    get_parent().add_child(fx)
 
     var clazz = [HealthPickup, HealthPickup, CoolantPickup, CoolantPickup, CoinPickup, CoinPickup, CoinPickup, CoinPickup][randi() % 8]
     var pickup = clazz.instance()
-
+    PickupManager.add_pickup(pickup)
     pickup.global_transform.origin = global_transform.origin
-
-    get_parent().add_child(pickup)
-
 
     queue_free()

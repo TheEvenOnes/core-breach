@@ -1,6 +1,6 @@
 extends Area
 
-const HealthPickupFX := preload('res://src/pickups/CoolantPickupFX.tscn')
+const PickupFX := preload('res://src/pickups/PickupFX.tscn')
 
 var elapsed := 0.0
 
@@ -14,8 +14,9 @@ func _physics_process(delta: float) -> void:
     for body in bodies:
       if body.is_in_group('player.ship'):
         body.add_core_time(5)
-        var fx = HealthPickupFX.instance()
-        get_parent().add_child(fx)
+        var fx = PickupFX.instance()
+        FxManager.add_fx(fx)
+        fx.fx_color = Color.cyan
         fx.global_transform.origin = global_transform.origin
         queue_free()
         break

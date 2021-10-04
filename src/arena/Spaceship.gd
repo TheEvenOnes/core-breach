@@ -12,6 +12,7 @@ export (float) var max_ammo := 100.0
 export (float) var current_ammo := 100.0
 export (float) var ammo_regen := 20.0
 export (float) var core_meltdown_timer := 30.0
+export (Color) var energy_color := Color.purple
 
 onready var health := current_health
 onready var ammo := current_ammo
@@ -72,7 +73,8 @@ func process_shoot() -> void:
     var projectile = Projectile.instance()
     projectile.global_transform = $Camera/ProjectileShooter.global_transform
     projectile.apply_central_impulse(projectile.transform.basis.z * -projectile.speed)
-    get_parent().add_child(projectile)
+    projectile.energy_color = energy_color
+    ProjectileManager.add_projectile(projectile)
     $AudioStreamPlayer3D.play()
 
 func _ready() -> void:

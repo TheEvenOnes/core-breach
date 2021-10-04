@@ -11,8 +11,15 @@ config_version=4
 [application]
 
 config/name="unstable"
-run/main_scene="res://src/arena/Arena.tscn"
+run/main_scene="res://src/root/Root.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+ArenaManager="*res://src/root/ArenaManager.gd"
+PickupManager="*res://src/root/PickupManager.gd"
+FxManager="*res://src/root/FXManager.gd"
+ProjectileManager="*res://src/root/ProjectileManager.gd"
 
 [display]
 
