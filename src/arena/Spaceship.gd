@@ -79,7 +79,6 @@ func process_shoot() -> void:
     $AudioStreamPlayer3D.play()
 
 func _ready() -> void:
-
   contact_monitor = true
   contacts_reported = true
   linear_damp = 1.5

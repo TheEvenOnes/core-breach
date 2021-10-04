@@ -56,52 +56,55 @@ emission_on_uv2 = false
 
 [node name="Arena" type="Spatial"]
 
-[node name="InterpolatedCamera2" type="Camera" parent="."]
+[node name="Player" type="Spatial" parent="."]
+
+[node name="MainCamera" type="Camera" parent="Player"]
 current = true
 far = 750.0
 script = ExtResource( 15 )
 target = NodePath("../Spaceship/Camera")
 
-[node name="Spaceship" type="RigidBody" parent="." groups=[
+[node name="Spaceship" type="RigidBody" parent="Player" groups=[
 "player.ship",
 ]]
 contact_monitor = true
 script = ExtResource( 1 )
 ammo_regen = 10.0
 
-[node name="CollisionShape" type="CollisionShape" parent="Spaceship"]
+[node name="CollisionShape" type="CollisionShape" parent="Player/Spaceship"]
 shape = SubResource( 1 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Spaceship"]
+[node name="MeshInstance" type="MeshInstance" parent="Player/Spaceship"]
 transform = Transform( 9.55343e-15, -2.18557e-07, 0.8, -0.3, -1.31134e-08, 0, 5.68248e-08, -1.3, -2.40413e-07, 0, 0, 0 )
 mesh = SubResource( 2 )
 material/0 = SubResource( 3 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Spaceship/MeshInstance"]
+[node name="MeshInstance" type="MeshInstance" parent="Player/Spaceship/MeshInstance"]
 transform = Transform( -1.31134e-08, -2.53526e-07, 0.8, 1.78629e-08, 0.8, 1.82915e-07, -0.4875, -1.36598e-07, -5.68248e-08, -0.666667, -0.538461, -0.5 )
 mesh = SubResource( 2 )
 material/0 = SubResource( 4 )
 
-[node name="MeshInstance2" type="MeshInstance" parent="Spaceship/MeshInstance"]
+[node name="MeshInstance2" type="MeshInstance" parent="Player/Spaceship/MeshInstance"]
 transform = Transform( -1.31134e-08, -2.53526e-07, 0.8, 1.78629e-08, 0.8, 1.82915e-07, -0.4875, -1.36598e-07, -5.68248e-08, -0.666667, -0.538461, 0.5 )
 mesh = SubResource( 2 )
 material/0 = SubResource( 4 )
 
-[node name="Camera" type="Camera" parent="Spaceship"]
+[node name="Camera" type="Camera" parent="Player/Spaceship"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 1.6 )
+current = true
 far = 750.0
 
-[node name="ProjectileShooter" type="Position3D" parent="Spaceship/Camera"]
+[node name="ProjectileShooter" type="Position3D" parent="Player/Spaceship/Camera"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.87811 )
 
-[node name="GUI" type="Control" parent="Spaceship/Camera"]
+[node name="GUI" type="Control" parent="Player/Spaceship/Camera"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Crosshair" type="TextureRect" parent="Spaceship/Camera/GUI"]
+[node name="Crosshair" type="TextureRect" parent="Player/Spaceship/Camera/GUI"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -115,12 +118,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CrossTarget" type="Sprite" parent="Spaceship/Camera/GUI"]
+[node name="CrossTarget" type="Sprite" parent="Player/Spaceship/Camera/GUI"]
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 511.58, 302.984 )
 texture = ExtResource( 3 )
 
-[node name="Health" type="ColorRect" parent="Spaceship/Camera/GUI"]
+[node name="Health" type="ColorRect" parent="Player/Spaceship/Camera/GUI"]
 margin_left = 216.0
 margin_top = 128.0
 margin_right = 224.0
@@ -131,7 +134,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HealthLabel" type="Label" parent="Spaceship/Camera/GUI"]
+[node name="HealthLabel" type="Label" parent="Player/Spaceship/Camera/GUI"]
 margin_left = 176.0
 margin_top = 160.0
 margin_right = 216.0
@@ -145,7 +148,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CoreMeltdown" type="Label" parent="Spaceship/Camera/GUI"]
+[node name="CoreMeltdown" type="Label" parent="Player/Spaceship/Camera/GUI"]
 margin_left = 128.0
 margin_right = 384.0
 margin_bottom = 32.0
@@ -158,7 +161,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="In" type="Label" parent="Spaceship/Camera/GUI/CoreMeltdown"]
+[node name="In" type="Label" parent="Player/Spaceship/Camera/GUI/CoreMeltdown"]
 margin_top = 32.0
 margin_right = 256.0
 margin_bottom = 64.0
@@ -171,7 +174,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Ammo" type="ColorRect" parent="Spaceship/Camera/GUI"]
+[node name="Ammo" type="ColorRect" parent="Player/Spaceship/Camera/GUI"]
 margin_left = 288.0
 margin_top = 128.0
 margin_right = 296.0
@@ -179,7 +182,7 @@ margin_bottom = 168.0
 rect_pivot_offset = Vector2( 0, 40 )
 color = Color( 0, 1, 0, 1 )
 
-[node name="AmmoLabel" type="Label" parent="Spaceship/Camera/GUI"]
+[node name="AmmoLabel" type="Label" parent="Player/Spaceship/Camera/GUI"]
 margin_left = 296.0
 margin_top = 160.0
 margin_right = 336.0
@@ -193,7 +196,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CoinsLabel" type="Label" parent="Spaceship/Camera/GUI"]
+[node name="CoinsLabel" type="Label" parent="Player/Spaceship/Camera/GUI"]
 margin_right = 128.0
 margin_bottom = 64.0
 custom_fonts/font = ExtResource( 9 )
@@ -204,14 +207,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Spaceship"]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Player/Spaceship"]
 stream = ExtResource( 4 )
 attenuation_model = 2
 unit_db = -5.0
 unit_size = 2.0
 bus = "Sounds"
 
-[node name="CoreSFX" type="AudioStreamPlayer3D" parent="Spaceship"]
+[node name="CoreSFX" type="AudioStreamPlayer3D" parent="Player/Spaceship"]
 stream = ExtResource( 5 )
 attenuation_model = 2
 unit_db = -20.0

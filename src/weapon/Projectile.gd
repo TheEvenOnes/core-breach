@@ -11,10 +11,13 @@ func _ready() -> void:
   $MeshInstance.get_surface_material(0).emission = energy_color
   contact_monitor = true
   contacts_reported = true
-  yield(get_tree().create_timer(lifetime), 'timeout')
-  queue_free()
 
 func _physics_process(delta: float) -> void:
+  lifetime -= delta
+  if lifetime < 0.0:
+    queue_free()
+    return
+
   var colliding_bodies = get_colliding_bodies()
   if colliding_bodies.size() > 0:
     var effect = ProjectileExplodeEffect.instance()
