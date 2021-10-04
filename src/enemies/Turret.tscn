@@ -3,21 +3,21 @@
 [ext_resource path="res://src/enemies/TurretMaterial.tres" type="Material" id=1]
 [ext_resource path="res://src/enemies/Turret.gd" type="Script" id=2]
 
-[sub_resource type="SphereShape" id=11]
+[sub_resource type="SphereShape" id=1]
 radius = 20.0
 
-[sub_resource type="SphereShape" id=9]
+[sub_resource type="SphereShape" id=2]
 
-[sub_resource type="CylinderMesh" id=10]
+[sub_resource type="CylinderMesh" id=3]
 material = ExtResource( 1 )
 height = 1.0
 radial_segments = 5
 
-[sub_resource type="SphereMesh" id=7]
+[sub_resource type="SphereMesh" id=4]
 radial_segments = 4
 rings = 7
 
-[sub_resource type="SpatialMaterial" id=8]
+[sub_resource type="SpatialMaterial" id=5]
 metallic = 1.0
 metallic_specular = 0.0
 emission_enabled = true
@@ -37,31 +37,32 @@ script = ExtResource( 2 )
 [node name="Scanner" type="Area" parent="."]
 
 [node name="CollisionShape" type="CollisionShape" parent="Scanner"]
-shape = SubResource( 11 )
+shape = SubResource( 1 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
-shape = SubResource( 9 )
+transform = Transform( 1, 0, 0, 0, 2.5, 0, 0, 0, 1, 0, 1.00615, 0 )
+shape = SubResource( 2 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
-mesh = SubResource( 10 )
+mesh = SubResource( 3 )
 material/0 = null
 
 [node name="MeshInstance2" type="MeshInstance" parent="."]
 transform = Transform( 0.617584, 0, 0, 0, 1.39386, 0, 0, 0, 0.617584, 0, 0, 0 )
-mesh = SubResource( 7 )
-material/0 = SubResource( 8 )
+mesh = SubResource( 4 )
+material/0 = SubResource( 5 )
 
 [node name="Gun" type="Spatial" parent="."]
 
 [node name="MeshInstance" type="MeshInstance" parent="Gun"]
 transform = Transform( 0.65, 0, 0, 0, -2.84124e-08, -0.65, 0, 1, -4.37114e-08, 0, 2.53748, 0 )
-mesh = SubResource( 10 )
+mesh = SubResource( 3 )
 material/0 = null
 
 [node name="MeshInstance3" type="MeshInstance" parent="Gun/MeshInstance"]
 transform = Transform( 0.492855, 0, 0, 0, 1, -2.2168e-08, 0, -2.2168e-08, 0.492855, 0, -1.00263, 0 )
-mesh = SubResource( 7 )
-material/0 = SubResource( 8 )
+mesh = SubResource( 4 )
+material/0 = SubResource( 5 )
 
 [node name="ShootyPoint" type="Position3D" parent="Gun"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.57181, -2.08698 )
