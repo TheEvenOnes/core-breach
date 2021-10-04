@@ -10,7 +10,10 @@ config_version=4
 
 [application]
 
-config/name="unstable"
+config/name="Core Breach"
+config/description="Your spaceship's core is unstable and about to breach. Defend yourself against turrets, pick up coins, coolants for your core and heal yourself from the damage caused by turrets. Reach the local system's jumpgate.
+
+"
 run/main_scene="res://src/root/Root.tscn"
 config/icon="res://icon.png"
 
