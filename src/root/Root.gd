@@ -1,6 +1,6 @@
 extends Spatial
 
-const Arena := preload('res://src/arena/Arena.tscn')
+const Menu := preload('res://src/menu/Menu.tscn')
 
 func _ready() -> void:
-  ArenaManager.set_arena(Arena.instance())
+  ArenaManager.set_arena(Menu.instance())

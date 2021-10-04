@@ -1,0 +1,112 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://src/pickups/HealthPickup.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/pickups/CoinPickup.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/objects/Crate.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/enemies/Turret.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/fonts/lunchds_title.tres" type="DynamicFont" id=5]
+[ext_resource path="res://src/portal/Stargate.tscn" type="PackedScene" id=6]
+[ext_resource path="res://assets/fonts/lunchds.tres" type="DynamicFont" id=7]
+[ext_resource path="res://src/menu/Start.gd" type="Script" id=8]
+[ext_resource path="res://src/menu/Exit.gd" type="Script" id=9]
+[ext_resource path="res://src/menu/Help.gd" type="Script" id=10]
+
+[node name="Spatial" type="Spatial"]
+
+[node name="Crate" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.49846, -1.45873, -6.14481 )
+
+[node name="Crate2" parent="." instance=ExtResource( 3 )]
+transform = Transform( -0.881402, 0, -0.472366, -0.366469, 0.63096, 0.683805, 0.298044, 0.775815, -0.55613, 5.15351, -1.21889, -15.2273 )
+
+[node name="Turret" parent="." instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.48314, -4.28846, -5.56729 )
+
+[node name="CoolantPickup" parent="." instance=ExtResource( 2 )]
+transform = Transform( 0.963812, 0, 0.266582, 0, 1, 0, -0.266582, 0, 0.963812, 3.02989, 0.848035, 4.34407 )
+
+[node name="Stargate" parent="." instance=ExtResource( 6 )]
+transform = Transform( 0.522692, 0, -0.852522, 0, 1, 0, 0.852522, 0, 0.522692, -0.56432, -0.84374, -31.5788 )
+
+[node name="HealthPickup" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 15.6258, 1.60789, -46.5723 )
+
+[node name="Control" type="Control" parent="."]
+margin_right = 1022.0
+margin_bottom = 598.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Control"]
+margin_left = 141.0
+margin_top = 24.6652
+margin_right = 401.0
+margin_bottom = 70.6652
+custom_fonts/font = ExtResource( 5 )
+text = "Core Breach"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Start" type="Button" parent="Control"]
+margin_left = 85.3071
+margin_top = 338.234
+margin_right = 245.307
+margin_bottom = 389.234
+text = "Start"
+script = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Help" type="Button" parent="Control"]
+margin_left = 85.3071
+margin_top = 411.583
+margin_right = 245.307
+margin_bottom = 462.583
+text = "Help"
+script = ExtResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Exit" type="Button" parent="Control"]
+margin_left = 85.3071
+margin_top = 480.995
+margin_right = 245.307
+margin_bottom = 531.995
+rect_rotation = -0.353008
+text = "Exit"
+script = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HelpLabel" type="Label" parent="Control"]
+visible = false
+margin_left = 401.0
+margin_top = 462.583
+margin_right = 938.0
+margin_bottom = 554.583
+custom_fonts/font = ExtResource( 7 )
+text = "Your spaceship's core is unstable and about to breach. Defend yourself against turrets, pick up coins, coolants for your core and heal yourself from the damage caused by turrets. Reach the local system's jumpgate.
+"
+autowrap = true
+
+[node name="Label2" type="Label" parent="Control"]
+margin_top = 576.447
+margin_right = 522.0
+margin_bottom = 592.447
+custom_fonts/font = ExtResource( 7 )
+text = "Ludum Dare 49 - https://github.com/TheEvenOnes/core-breach"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 0.938204, -0.184664, 0.292698, 0, 0.845747, 0.533584, -0.346082, -0.50061, 0.793484, 3.65304, 6.65944, 9.90315 )
+
+[connection signal="pressed" from="Control/Start" to="Control/Start" method="_on_Start_pressed"]
+[connection signal="pressed" from="Control/Help" to="Control/Help" method="_on_Help_pressed"]
+[connection signal="pressed" from="Control/Exit" to="Control/Exit" method="_on_Exit_pressed"]
