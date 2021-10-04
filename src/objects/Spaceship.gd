@@ -173,3 +173,6 @@ func add_core_time(amount: float) -> void:
 
 func add_coins(amount: int) -> void:
   coins += amount
+
+func damage(amount: float) -> void:
+  health = max(0.0, health - amount)

@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://src/pickups/CoolantPickup.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/enemies/Turret.tscn" type="PackedScene" id=2]
+
+[node name="CoolantTile" type="Spatial"]
+
+[node name="CoolantPickup" parent="." instance=ExtResource( 1 )]
+
+[node name="CoolantPickup2" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3, 0 )
+
+[node name="CoolantPickup3" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.48709, 1.26533, 0 )
+
+[node name="CoolantPickup4" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.487, 1.265, 0 )
+
+[node name="CoolantPickup5" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 2 )
+
+[node name="CoolantPickup6" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, -2 )
+
+[node name="Turret" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.47081, 0 )

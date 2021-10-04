@@ -23,8 +23,6 @@ ProjectileManager="*res://src/root/ProjectileManager.gd"
 
 [display]
 
-window/size/width=512
-window/size/height=300
 window/size/resizable=false
 window/size/fullscreen=true
 window/vsync/vsync_via_compositor=true

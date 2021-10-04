@@ -1,40 +1,11 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=11 format=2]
 
-[ext_resource path="res://src/arena/Spaceship.gd" type="Script" id=1]
-[ext_resource path="res://assets/crosshair.png" type="Texture" id=2]
-[ext_resource path="res://assets/crosshair-target.png" type="Texture" id=3]
-[ext_resource path="res://assets/projectile-shoot.wav" type="AudioStream" id=4]
-[ext_resource path="res://assets/371282__nexotron__spaceship-engine-just-noise.wav" type="AudioStream" id=5]
+[ext_resource path="res://src/objects/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/arena/Arena.gd" type="Script" id=2]
+[ext_resource path="res://default_env.tres" type="Environment" id=3]
 [ext_resource path="res://assets/345795__anoesj__hollow-space-drone.wav" type="AudioStream" id=6]
 [ext_resource path="res://assets/196266__insu__plasma-engine-fx.wav" type="AudioStream" id=7]
 [ext_resource path="res://assets/music/trip1.mp3" type="AudioStream" id=8]
-[ext_resource path="res://assets/fonts/lunchds.tres" type="DynamicFont" id=9]
-[ext_resource path="res://src/pickups/HealthPickup.tscn" type="PackedScene" id=10]
-[ext_resource path="res://src/objects/Crate.tscn" type="PackedScene" id=11]
-[ext_resource path="res://src/pickups/CoolantPickup.tscn" type="PackedScene" id=13]
-[ext_resource path="res://src/arena/InterpolatedCamera2.gd" type="Script" id=15]
-
-[sub_resource type="CapsuleShape" id=1]
-
-[sub_resource type="PrismMesh" id=2]
-
-[sub_resource type="SpatialMaterial" id=3]
-metallic = 1.0
-metallic_specular = 0.0
-emission_enabled = true
-emission = Color( 0.2, 0.2, 0.2, 1 )
-emission_energy = 1.0
-emission_operator = 0
-emission_on_uv2 = false
-
-[sub_resource type="SpatialMaterial" id=4]
-metallic = 1.0
-metallic_specular = 1.0
-emission_enabled = true
-emission = Color( 0.321569, 0.321569, 0.321569, 1 )
-emission_energy = 1.0
-emission_operator = 0
-emission_on_uv2 = false
 
 [sub_resource type="SphereShape" id=5]
 
@@ -55,173 +26,13 @@ emission_operator = 0
 emission_on_uv2 = false
 
 [node name="Arena" type="Spatial"]
+script = ExtResource( 2 )
 
-[node name="Player" type="Spatial" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource( 3 )
 
-[node name="MainCamera" type="Camera" parent="Player"]
-current = true
-far = 750.0
-script = ExtResource( 15 )
-target = NodePath("../Spaceship/Camera")
-
-[node name="Spaceship" type="RigidBody" parent="Player" groups=[
-"player.ship",
-]]
-contact_monitor = true
-script = ExtResource( 1 )
-ammo_regen = 10.0
-
-[node name="CollisionShape" type="CollisionShape" parent="Player/Spaceship"]
-shape = SubResource( 1 )
-
-[node name="MeshInstance" type="MeshInstance" parent="Player/Spaceship"]
-transform = Transform( 9.55343e-15, -2.18557e-07, 0.8, -0.3, -1.31134e-08, 0, 5.68248e-08, -1.3, -2.40413e-07, 0, 0, 0 )
-mesh = SubResource( 2 )
-material/0 = SubResource( 3 )
-
-[node name="MeshInstance" type="MeshInstance" parent="Player/Spaceship/MeshInstance"]
-transform = Transform( -1.31134e-08, -2.53526e-07, 0.8, 1.78629e-08, 0.8, 1.82915e-07, -0.4875, -1.36598e-07, -5.68248e-08, -0.666667, -0.538461, -0.5 )
-mesh = SubResource( 2 )
-material/0 = SubResource( 4 )
-
-[node name="MeshInstance2" type="MeshInstance" parent="Player/Spaceship/MeshInstance"]
-transform = Transform( -1.31134e-08, -2.53526e-07, 0.8, 1.78629e-08, 0.8, 1.82915e-07, -0.4875, -1.36598e-07, -5.68248e-08, -0.666667, -0.538461, 0.5 )
-mesh = SubResource( 2 )
-material/0 = SubResource( 4 )
-
-[node name="Camera" type="Camera" parent="Player/Spaceship"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 1.6 )
-current = true
-far = 750.0
-
-[node name="ProjectileShooter" type="Position3D" parent="Player/Spaceship/Camera"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.87811 )
-
-[node name="GUI" type="Control" parent="Player/Spaceship/Camera"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Crosshair" type="TextureRect" parent="Player/Spaceship/Camera/GUI"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -32.0
-margin_top = -32.0
-margin_right = 32.0
-margin_bottom = 32.0
-texture = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="CrossTarget" type="Sprite" parent="Player/Spaceship/Camera/GUI"]
-modulate = Color( 1, 1, 1, 0 )
-position = Vector2( 511.58, 302.984 )
-texture = ExtResource( 3 )
-
-[node name="Health" type="ColorRect" parent="Player/Spaceship/Camera/GUI"]
-margin_left = 216.0
-margin_top = 128.0
-margin_right = 224.0
-margin_bottom = 168.0
-rect_pivot_offset = Vector2( 0, 40 )
-color = Color( 1, 0, 0, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HealthLabel" type="Label" parent="Player/Spaceship/Camera/GUI"]
-margin_left = 176.0
-margin_top = 160.0
-margin_right = 216.0
-margin_bottom = 178.0
-custom_fonts/font = ExtResource( 9 )
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "100%"
-align = 1
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="CoreMeltdown" type="Label" parent="Player/Spaceship/Camera/GUI"]
-margin_left = 128.0
-margin_right = 384.0
-margin_bottom = 32.0
-custom_fonts/font = ExtResource( 9 )
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "Core meltdown in"
-align = 1
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="In" type="Label" parent="Player/Spaceship/Camera/GUI/CoreMeltdown"]
-margin_top = 32.0
-margin_right = 256.0
-margin_bottom = 64.0
-custom_fonts/font = ExtResource( 9 )
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "60 seconds"
-align = 1
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Ammo" type="ColorRect" parent="Player/Spaceship/Camera/GUI"]
-margin_left = 288.0
-margin_top = 128.0
-margin_right = 296.0
-margin_bottom = 168.0
-rect_pivot_offset = Vector2( 0, 40 )
-color = Color( 0, 1, 0, 1 )
-
-[node name="AmmoLabel" type="Label" parent="Player/Spaceship/Camera/GUI"]
-margin_left = 296.0
-margin_top = 160.0
-margin_right = 336.0
-margin_bottom = 178.0
-custom_fonts/font = ExtResource( 9 )
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "100%"
-align = 1
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="CoinsLabel" type="Label" parent="Player/Spaceship/Camera/GUI"]
-margin_right = 128.0
-margin_bottom = 64.0
-custom_fonts/font = ExtResource( 9 )
-text = "Coins: 0"
-align = 1
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Player/Spaceship"]
-stream = ExtResource( 4 )
-attenuation_model = 2
-unit_db = -5.0
-unit_size = 2.0
-bus = "Sounds"
-
-[node name="CoreSFX" type="AudioStreamPlayer3D" parent="Player/Spaceship"]
-stream = ExtResource( 5 )
-attenuation_model = 2
-unit_db = -20.0
-unit_size = 3.0
-bus = "Sounds"
-
-[node name="Crate" parent="." instance=ExtResource( 11 )]
+[node name="Player" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 35 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 6 )
@@ -231,7 +42,7 @@ autoplay = true
 bus = "Sounds"
 
 [node name="Beacon" type="RigidBody" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6.17918, 0, -10.7562 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.2, 0, 27.1 )
 mode = 3
 linear_damp = 2.0
 angular_damp = 2.0
@@ -255,19 +66,45 @@ unit_db = -5.0
 unit_size = 3.0
 autoplay = true
 
-[node name="DirectionalLight" type="DirectionalLight" parent="."]
-transform = Transform( 1, 0, 0, 0, -0.422618, 0.906308, 0, -0.906308, -0.422618, -7.9, 0, 0 )
-shadow_enabled = true
-shadow_color = Color( 0.0941176, 0.215686, 0.407843, 1 )
-
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 8 )
 volume_db = -10.0
 autoplay = true
 bus = "Music"
 
-[node name="HealthPickup" parent="." instance=ExtResource( 10 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.4, 0, -4.8 )
+[node name="Grid" type="Spatial" parent="."]
 
-[node name="CoolantPickup" parent="." instance=ExtResource( 13 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6, 0, 0 )
+[node name="TileSpawn" type="Position3D" parent="Grid"]
+
+[node name="TileSpawn2" type="Position3D" parent="Grid"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 0 )
+
+[node name="TileSpawn3" type="Position3D" parent="Grid"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, 0 )
+
+[node name="TileSpawn4" type="Position3D" parent="Grid"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -16 )
+
+[node name="TileSpawn5" type="Position3D" parent="Grid"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, -16 )
+
+[node name="TileSpawn6" type="Position3D" parent="Grid"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, -16 )
+
+[node name="TileSpawn7" type="Position3D" parent="Grid"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -32 )
+
+[node name="TileSpawn8" type="Position3D" parent="Grid"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, -32 )
+
+[node name="TileSpawn9" type="Position3D" parent="Grid"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, -32 )
+
+[node name="TileSpawn10" type="Position3D" parent="Grid"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -48 )
+
+[node name="TileSpawn11" type="Position3D" parent="Grid"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, -48 )
+
+[node name="TileSpawn12" type="Position3D" parent="Grid"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, -48 )

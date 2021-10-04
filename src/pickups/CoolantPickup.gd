@@ -2,11 +2,10 @@ extends Area
 
 const PickupFX := preload('res://src/pickups/PickupFX.tscn')
 
-var elapsed := 0.0
+var elapsed := randf()
 
 func _physics_process(delta: float) -> void:
   elapsed += delta
-  transform.origin.y = sin(elapsed)
   rotation.y = elapsed
 
   var bodies = get_overlapping_bodies()

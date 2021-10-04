@@ -18,7 +18,7 @@ func _physics_process(delta: float) -> void:
   var rect = get_viewport().size
   var player = (get_tree().get_nodes_in_group("player.ship"))[0]
 
-  if player != null:
+  if false && player != null:
     var dist_to_player = global_transform.origin.distance_to(player.global_transform.origin)
 
     $Control/ColorRect.rect_position = pos + Vector2(-32, - 32 + 16 * clamp(2.0 / dist_to_player, 0.0, 1.0))
