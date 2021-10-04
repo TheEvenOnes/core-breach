@@ -17,6 +17,5 @@ func _ready():
 
 func _on_Area_body_entered(body: Spatial):
   if body.is_in_group('player.ship'):
-    yield(get_tree().create_timer(0.05), 'timeout')
-    var arena := load('res://src/arena/Arena.tscn')
-    $"/root/ArenaManager".set_arena(arena)
+    var arena = load('res://src/arena/Arena.tscn').instance()
+    ArenaManager.set_arena(arena)

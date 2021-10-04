@@ -8,7 +8,7 @@ const TILE = [CrateTile, CrateTile, CrateTile, CoolantTile]
 const SKY_COLOR = [Color.darkblue, Color.darkgreen, Color.darkgoldenrod, Color.darkslategray]
 const HORIZON_COLOR = [Color.slategray, Color.aquamarine, Color.burlywood, Color.slategray]
 
-export (float) var difficulty := 1.0
+export (float) var difficulty := 0.5
 
 var rng = OpenSimplexNoise.new()
 
@@ -43,4 +43,7 @@ func setup() -> void:
     var tile: Spatial = TILE[int((0.5 + 0.5 * rng.get_noise_1d(i * 100)) * 100) % TILE.size()].instance()
     slot.add_child(tile)
     tile.global_transform.origin = slot.global_transform.origin
-    tile.global_transform.origin.y = (0.5 * rng.get_noise_1d(i * 25)) * 10.0
+    tile.global_transform.origin.y = (1.0 - 2.0 * randf()) * 10.0
+    tile.rotate_x(randf() * PI)
+    tile.rotate_y(randf() * PI)
+    tile.rotate_z(randf() * PI)

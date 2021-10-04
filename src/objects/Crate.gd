@@ -6,7 +6,7 @@ const CoinPickup := preload('res://src/pickups/CoinPickup.tscn')
 
 const CrateExplodeFX := preload('res://src/objects/CrateExplodeFX.tscn')
 
-const MAX_HEALTH := 2.0
+const MAX_HEALTH := 3.0
 var health := MAX_HEALTH
 
 func _ready() -> void:
@@ -29,11 +29,6 @@ func _physics_process(delta: float) -> void:
     $Control.visible = to_player.dot(direction) > 0
 
   update_gui()
-
-  for body in get_colliding_bodies():
-    if body.is_in_group('projectile'):
-      damage(1)
-
 
 func update_gui() -> void:
   $Control/ColorRect.rect_scale.x = health / MAX_HEALTH
