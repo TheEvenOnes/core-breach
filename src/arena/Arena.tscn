@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://src/objects/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/arena/Arena.gd" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://assets/345795__anoesj__hollow-space-drone.wav" type="AudioStream" id=6]
 [ext_resource path="res://assets/196266__insu__plasma-engine-fx.wav" type="AudioStream" id=7]
 [ext_resource path="res://assets/music/trip1.mp3" type="AudioStream" id=8]
+[ext_resource path="res://src/portal/Stargate.tscn" type="PackedScene" id=12]
 
 [sub_resource type="SphereShape" id=1]
 
@@ -108,3 +109,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, -48 )
 
 [node name="TileSpawn12" type="Position3D" parent="Grid"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, -48 )
+
+[node name="Stargate" parent="." instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.673, 0, -137.965 )
