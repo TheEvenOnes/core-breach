@@ -15,8 +15,8 @@ func _physics_process(delta: float) -> void:
       if body.is_in_group('player.ship'):
         body.add_core_time(5)
         var fx = PickupFX.instance()
-        FxManager.add_fx(fx)
         fx.fx_color = Color.cyan
+        FxManager.add_fx(fx)
         fx.global_transform.origin = global_transform.origin
         queue_free()
         break

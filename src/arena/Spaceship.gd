@@ -75,6 +75,7 @@ func process_shoot() -> void:
     projectile.apply_central_impulse(projectile.transform.basis.z * -projectile.speed)
     projectile.energy_color = energy_color
     ProjectileManager.add_projectile(projectile)
+    add_collision_exception_with(projectile)
     $AudioStreamPlayer3D.play()
 
 func _ready() -> void:

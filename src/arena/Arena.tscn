@@ -92,7 +92,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 1.6 )
 far = 750.0
 
 [node name="ProjectileShooter" type="Position3D" parent="Spaceship/Camera"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.17811 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.87811 )
 
 [node name="GUI" type="Control" parent="Spaceship/Camera"]
 anchor_right = 1.0
@@ -220,27 +220,6 @@ bus = "Sounds"
 
 [node name="Crate" parent="." instance=ExtResource( 11 )]
 
-[node name="Crate2" parent="." instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.9, 0, -8.3 )
-
-[node name="Crate3" parent="." instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -12.1 )
-
-[node name="Crate4" parent="." instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.62386, 0, -16.517 )
-
-[node name="Crate5" parent="." instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -16.5 )
-
-[node name="Crate6" parent="." instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.62386, 0, -20.917 )
-
-[node name="Crate7" parent="." instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -20.7 )
-
-[node name="Crate8" parent="." instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.9, 0, -20.7 )
-
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 6 )
 volume_db = -20.0
@@ -289,42 +268,3 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.4, 0, -4.8 )
 
 [node name="CoolantPickup" parent="." instance=ExtResource( 13 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6, 0, 0 )
-
-[node name="CoolantPickup2" parent="." instance=ExtResource( 13 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7.24389, 0, 0 )
-
-[node name="CoolantPickup3" parent="." instance=ExtResource( 13 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.88705, 0, 0 )
-
-[node name="CoolantPickup4" parent="." instance=ExtResource( 13 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5309, 0, 0 )
-
-[node name="CoolantPickup5" parent="." instance=ExtResource( 13 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 15.3282, 0, 0 )
-
-[node name="CoolantPickup6" parent="." instance=ExtResource( 13 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 17.9721, 0, 0 )
-
-[node name="CoolantPickup7" parent="." instance=ExtResource( 13 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20.7327, 0, 0 )
-
-[node name="CoolantPickup8" parent="." instance=ExtResource( 13 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 23.3766, 0, 0 )
-
-[node name="CoolantPickup9" parent="." instance=ExtResource( 13 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 26.237, 0, 0 )
-
-[node name="CoolantPickup10" parent="." instance=ExtResource( 13 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 28.8809, 0, 0 )
-
-[node name="CoolantPickup11" parent="." instance=ExtResource( 13 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 31.7185, 0, 0 )
-
-[node name="CoolantPickup12" parent="." instance=ExtResource( 13 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 34.3624, 0, 0 )
-
-[node name="CoolantPickup13" parent="." instance=ExtResource( 13 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 37.5024, 0, 0 )
-
-[node name="CoolantPickup14" parent="." instance=ExtResource( 13 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 40.1463, 0, 0 )
