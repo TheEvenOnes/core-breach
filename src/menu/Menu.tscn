@@ -110,6 +110,9 @@ margin_left = 792.0
 margin_right = 1560.0
 margin_bottom = 336.0
 texture = ExtResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 0.938204, -0.184664, 0.292698, 0, 0.845747, 0.533584, -0.346082, -0.50061, 0.793484, 3.65304, 6.65944, 9.90315 )
